@@ -35,24 +35,24 @@ getActionLabel <- function(input, search, replace)
 
 combineData <- function(userID, activityID, observations)
 {
-  col1 = read.table(userID, quote = "", sep = "", dec = ".", col.names = "User.ID", fill = T)
-  col2 = read.table(activityID, quote = "", sep = "", dec = ".", col.names = "Activity.ID", fill = T)
-  col3 = read.table(observations, quote = "", sep = "", dec = ".", col.names = getColNames(), fill = T)
+  col1 <- read.table(userID, quote = "", sep = "", dec = ".", col.names = "User.ID", fill = T)
+  col2 <- read.table(activityID, quote = "", sep = "", dec = ".", col.names = "Activity.ID", fill = T)
+  col3 <- read.table(observations, quote = "", sep = "", dec = ".", col.names = getColNames(), fill = T)
   cbind(col1, col2, col3)
 }
 
 # this is a bit ugly but it does the trick
 
 # regex for test files
-test_files = "test_*"
-test = combineData(getFiles(test_files)[1], getFiles(test_files)[3], getFiles(test_files)[2])
+test_files <- "test_*"
+test <- combineData(getFiles(test_files)[1], getFiles(test_files)[3], getFiles(test_files)[2])
 
 # regex for train files
-train_files = "train_*"
-train = combineData(getFiles(train_files)[1], getFiles(train_files)[3], getFiles(train_files)[2])
+train_files <- "train_*"
+train <- combineData(getFiles(train_files)[1], getFiles(train_files)[3], getFiles(train_files)[2])
 
 # 1. Merges the training and the test sets to create one data set.
-together = rbind(test,train, deparse.level = 0)
+together <- rbind(test,train, deparse.level = 0)
 
 # check which labels have "mean|Mean|std|Std"
 labelsMeanStd <- grep("mean|std", names(together), ignore.case = T, value = T)
