@@ -61,7 +61,11 @@ labelsMeanStd <- grep("mean|std", names(together), ignore.case = T, value = T)
 # 3. Uses descriptive activity names to name the activities in the data set
 # 4. Appropriately labels the data set with descriptive variable names. (already done by the combineData() function)
 activityName <- c("WALKING", "WALKING_UPSTAIRS", "WALKING_DOWNSTAIRS", "SITTING", "STANDING","LAYING")
-subsetData <- arrange(cbind(together[1], getActionLabel(together[2], 1:6,activityName),together[labelsMeanStd]), User.ID)
+subsetData <- arrange(cbind(together[1], getActionLabel(together[2], 1:6,activityName),together[labelsMeanStd]), User.ID, Activity.ID)
 
 # 5. From the data set in step 4, create a second, independent tidy data set 
 # with the average of each variable for each activity and each subject.
+grouping <- group_by(subsetData, User.ID, Activity.ID)
+tidy_data <- summarise_each(grouping, funs(mean))
+
+write.table(tidy_data, "tidy_data.txt", append = T, row.names = F)
